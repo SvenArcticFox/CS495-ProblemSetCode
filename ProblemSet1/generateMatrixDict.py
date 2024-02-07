@@ -7,15 +7,12 @@ def main(argv):
     targetMatrix = np.array([[1,2,3,4],
                                [5,6,7,8],
                                [9,10,11,12],
-                               [13,14,15,'x']])
+                               [13,14,15, 0]])
 
 
-    charList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,'x']
+    charList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]
 
-    puzzleMatrix = np.array([[None, None, None, None],
-                            [None, None, None, None],
-                            [None, None, None,None],
-                            [None, None, None, None]])
+    puzzleMatrix = np.zeros((4, 4), dtype=int)
 
     for i in range(4):
         for j in range(4):
@@ -27,24 +24,24 @@ def main(argv):
     g = 0
     h = 0
 
-    x_XIndex = None
-    x_YIndex = None
+    zero_xIndex = None
+    zero_yIndex = None
 
     for i in range(4):
         for j in range(4):
             if targetMatrix[i,j] != puzzleMatrix[i,j]:
                 h += 1
-            if puzzleMatrix[i,j] == 'x':
-                x_XIndex = i
-                x_YIndex = j
+            if puzzleMatrix[i,j] == 0:
+                zero_xIndex = i
+                zero_yIndex = j
 
     puzzleDict = {
         "targetMatrix": targetMatrix,
         "puzzleMatrix": puzzleMatrix,
         "h": h,
         "g": g,
-        "x_xIndex": x_XIndex,
-        "x_yIndex": x_YIndex
+        "zero_xIndex": zero_xIndex,
+        "zero_yIndex": zero_yIndex
     }
 
     print(puzzleDict)
