@@ -4,7 +4,6 @@ import numpy as np
 
 
 def main(argv):
-    puzzleDict = None
     with open('puzzleDictionary.pkl', 'rb') as f:
         puzzleDict = pickle.load(f)
 
@@ -21,6 +20,7 @@ def main(argv):
 
     print(targetMatrix)
     print(puzzleMatrix)
+
     def manhattanDist(puzzleNum):
         targetX , targetY = np.where(targetMatrix == puzzleNum)
         puzzleX, puzzleY = np.where(puzzleMatrix == puzzleNum)
@@ -29,6 +29,15 @@ def main(argv):
         yDist = abs(targetY - puzzleY)
 
         return xDist + yDist
+
+    def calculateHammingDist():
+        hamming = 0
+        for i in range(4):
+            for j in range(4):
+                if targetMatrix[i, j] != puzzleMatrix[i, j]:
+                    hamming += 1
+
+        return hamming
 
     print(manhattanDist(1))
     print(h)
