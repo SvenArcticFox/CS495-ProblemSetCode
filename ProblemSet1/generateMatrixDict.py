@@ -53,5 +53,7 @@ def main(argv):
         pickle.dump(puzzleDict, f)
 
     print("Dictionary successfully created and saved as puzzleDictionary.pkl!")
+
+
 if __name__ == "__main__":
     main(sys.argv)
