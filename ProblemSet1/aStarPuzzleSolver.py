@@ -39,6 +39,48 @@ def main(argv):
 
         return hamming
 
+    def moveLeft(zero_xIndex, zero_yIndex, g):
+        if (zero_xIndex == 0):
+            return False
+        temp = puzzleMatrix[zero_xIndex - 1, zero_yIndex]
+        puzzleMatrix[zero_xIndex - 1, zero_yIndex] = puzzleMatrix[zero_xIndex, zero_yIndex]
+        zero_xIndex -= 1
+        puzzleMatrix[zero_xIndex + 1, zero_yIndex] = temp
+        g += 1
+        return zero_xIndex, zero_yIndex, g
+
+    def moveRight(zero_xIndex, zero_yIndex, g):
+        if (zero_xIndex == 3):
+            return False
+        temp = puzzleMatrix[zero_xIndex + 1, zero_yIndex]
+        puzzleMatrix[zero_xIndex + 1, zero_yIndex] = puzzleMatrix[zero_xIndex, zero_yIndex]
+        zero_xIndex += 1
+        puzzleMatrix[zero_xIndex - 1, zero_yIndex] = temp
+        g += 1
+        return zero_xIndex, zero_yIndex, g
+
+    def moveUp(zero_xIndex, zero_yIndex, g):
+        if (zero_yIndex == 0):
+            return False
+        temp = puzzleMatrix[zero_xIndex, zero_yIndex + 1]
+        puzzleMatrix[zero_xIndex, zero_yIndex + 1] = puzzleMatrix[zero_xIndex, zero_yIndex]
+        zero_yIndex += 1
+        puzzleMatrix[zero_xIndex, zero_yIndex - 1] = temp
+        g += 1
+        return zero_xIndex, zero_yIndex, g
+
+    def moveDown(zero_xIndex, zero_yIndex, g):
+        if (zero_yIndex == 0):
+            return False
+        temp = puzzleMatrix[zero_xIndex, zero_yIndex - 1]
+        puzzleMatrix[zero_xIndex, zero_yIndex - 1] = puzzleMatrix[zero_xIndex, zero_yIndex]
+        zero_yIndex -= 1
+        puzzleMatrix[zero_xIndex, zero_yIndex + 1] = temp
+        g += 1
+        return zero_xIndex, zero_yIndex, g
+    
+
+
     print(manhattanDist(1))
     print(h)
 
