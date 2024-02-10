@@ -39,6 +39,18 @@ def main(argv):
 
         return hamming
 
+    def checkLeft(zero_xIndex):
+        return zero_xIndex == 0
+
+    def checkRight(zero_xIndex):
+        return zero_xIndex == 3
+
+    def checkUp(zero_yIndex):
+        return zero_yIndex == 0
+
+    def checkDown(zero_yIndex):
+        return zero_yIndex == 3
+
     def moveLeft(zero_xIndex, zero_yIndex, g):
         if (zero_xIndex == 0):
             return False
@@ -78,8 +90,15 @@ def main(argv):
         puzzleMatrix[zero_xIndex, zero_yIndex + 1] = temp
         g += 1
         return zero_xIndex, zero_yIndex, g
-    
 
+    def calcAllManhattanDist(manhattanList):
+        for i in range(15):
+            manhattanList[i] = manhattanDist(i)
+
+        return manhattanList
+
+    manhattanList = np.zeros(16, dtype=int)
+    calcAllManhattanDist(manhattanList)
 
     print(manhattanDist(1))
     print(h)
