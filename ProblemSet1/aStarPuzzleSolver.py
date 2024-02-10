@@ -92,7 +92,7 @@ def main(argv):
         return zero_xIndex, zero_yIndex, g
 
     def calcAllManhattanDist(manhattanList):
-        for i in range(15):
+        for i in range(16):
             manhattanList[i] = manhattanDist(i)
 
         return manhattanList
