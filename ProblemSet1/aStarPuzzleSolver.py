@@ -100,7 +100,7 @@ def main(argv):
     manhattanList = np.zeros(16, dtype=int)
     calcAllManhattanDist(manhattanList)
 
-    print(manhattanDist(1))
+    print(manhattanList)
     print(h)
 
 if __name__ == "__main__":
