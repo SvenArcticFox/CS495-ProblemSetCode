@@ -25,7 +25,7 @@ def main(argv):
     hamming = 0
 
     zero_xIndex = None
-    zero_yIndex = Nne
+    zero_yIndex = None
 
     for i in range(4):
         for j in range(4):

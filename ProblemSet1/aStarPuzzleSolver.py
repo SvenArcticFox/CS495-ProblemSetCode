@@ -178,6 +178,7 @@ def main(argv):
     rootBoard.boardMatrix = puzzleDict.get("puzzleMatrix")
     targetMatrix = puzzleDict.get("targetMatrix")
     rootBoard.hamming = puzzleDict.get("hamming")
+    rootBoard.manhattan = puzzleDict.get("manhattan")
     rootBoard.g = puzzleDict.get("g")
     rootBoard.zero_xIndex = puzzleDict.get("zero_xIndex")
     rootBoard.zero_yIndex = puzzleDict.get("zero_yIndex")
@@ -187,8 +188,6 @@ def main(argv):
     print(targetMatrix)
     print(rootBoard.boardMatrix)
 
-
-    rootBoard.manhattan = (rootBoard)
 
     print(rootBoard.manhattan)
     print(rootBoard.hamming)
