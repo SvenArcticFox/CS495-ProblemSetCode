@@ -5,14 +5,14 @@ from queue import PriorityQueue
 
 class Board:
     def __int__(self):
-        boardMatrix = np.zeros((4,4), dtype=int)
-        manhattan = 0
-        hamming = 0
-        g = 0
-        fscore = 0
-        zero_yIndex = 0
-        zero_xIndex = 0
-        moves = ""
+        self.boardMatrix = np.zeros((4,4), dtype=int)
+        self.manhattan = 0
+        self.hamming = 0
+        self.g = 0
+        self.fscore = 0
+        self.zero_yIndex = 0
+        self.zero_xIndex = 0
+        self.moves = ""
 
 
 def manhattanDist(puzzleNum, board, targetMatrix):
