@@ -13,6 +13,158 @@ class Board:
         zero_yIndex = 0
         zero_xIndex = 0
         moves = ""
+def manhattanDist(puzzleNum, board, targetMatrix):
+    targetX , targetY = np.where(targetMatrix == puzzleNum)
+    puzzleX, puzzleY = np.where(board.boardMatrix == puzzleNum)
+
+    xDist = abs(targetX - puzzleX)
+    yDist = abs(targetY - puzzleY)
+
+    return xDist + yDist
+
+def calculateHammingDist(board, targetMatrix):
+    hamming = 0
+    for i in range(4):
+        for j in range(4):
+            if targetMatrix[i, j] != board.boardMatrix[i, j]:
+                hamming += 1
+
+    return hamming
+
+def checkLeft(board):
+    return board.zero_xIndex == 0
+
+def checkRight(board):
+    return board.zero_xIndex == 3
+
+def checkUp(board):
+    return board.zero_yIndex == 0
+
+def checkDown(board):
+    return board.zero_yIndex == 3
+
+def moveLeft(board, targetMatrix):
+    if (board.zero_xIndex == 0):
+        return False
+
+    neighbor = Board()
+    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.manhattan = board.manhattan
+    neighbor.hamming = board.hamming
+    neighbor.g = board.g
+    neighbor.fscore = board.fscore
+    neighbor.zero_yIndex = board.zero_yIndex
+    neighbor.zero_xIndex = board.zero_xIndex
+    neighbor.moves = neighbor.moves
+
+
+    temp = neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex]
+    neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex] \
+        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    neighbor.zero_xIndex -= 1
+    neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex] = temp
+    neighbor.g += 1
+
+    neighbor.moves += "L, "
+
+    neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
+    neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
+    neighbor.fscore = neighbor.g + neighbor.manhattan
+
+    return neighbor
+
+def moveRight(board, targetMatrix):
+    if (board.zero_xIndex == 3):
+        return False
+
+    neighbor = Board()
+    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.manhattan = board.manhattan
+    neighbor.hamming = board.hamming
+    neighbor.g = board.g
+    neighbor.fscore = board.fscore
+    neighbor.zero_yIndex = board.zero_yIndex
+    neighbor.zero_xIndex = board.zero_xIndex
+    neighbor.moves = neighbor.moves
+
+    temp = neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex]
+    neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex] \
+        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    neighbor.zero_xIndex += 1
+    neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex] = temp
+    neighbor.g += 1
+
+    neighbor.moves += "R, "
+
+    neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
+    neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
+    neighbor.fscore = neighbor.g + neighbor.manhattan
+
+
+    return neighbor
+
+def moveUp(board, targetMatrix):
+    if (board.zero_xIndex == 0):
+        return False
+
+    neighbor = Board()
+    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.manhattan = board.manhattan
+    neighbor.hamming = board.hamming
+    neighbor.g = board.g
+    neighbor.fscore = board.fscore
+    neighbor.zero_yIndex = board.zero_yIndex
+    neighbor.zero_xIndex = board.zero_xIndex
+    neighbor.moves = neighbor.moves
+
+    temp = neighbor.boardMatrix[neighbor.zero_xIndex , neighbor.zero_yIndex + 1]
+    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex + 1] \
+        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    neighbor.zero_yIndex += 1
+    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1] = temp
+    neighbor.g += 1
+
+    neighbor.moves += "U, "
+
+    neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
+    neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
+    neighbor.fscore = neighbor.g + neighbor.manhattan
+
+    return neighbor
+
+def moveDown(board, targetMatrix):
+    if (board.zero_xIndex == 0):
+        return False
+
+    neighbor = Board()
+    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.manhattan = board.manhattan
+    neighbor.hamming = board.hamming
+    neighbor.g = board.g
+    neighbor.fscore = board.fscore
+    neighbor.zero_yIndex = board.zero_yIndex
+    neighbor.zero_xIndex = board.zero_xIndex
+    neighbor.moves = neighbor.moves
+
+    temp = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1]
+    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1] \
+        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    neighbor.zero_yIndex -= 1
+    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex + 1] = temp
+    neighbor.g += 1
+
+    neighbor.moves += "U, "
+
+    neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
+    neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
+    neighbor.fscore = neighbor.g + neighbor.manhattan
+
+def calcTotalManhattanDist(board, targetMatrix):
+    manhattan = 0
+    for i in range(16):
+        manhattan += manhattanDist(i, board, targetMatrix)
+
+    return manhattan
 
 
 
@@ -35,88 +187,10 @@ def main(argv):
     print(targetMatrix)
     print(rootBoard.boardMatrix)
 
-    def manhattanDist(puzzleNum, board):
-        targetX , targetY = np.where(targetMatrix == puzzleNum)
-        puzzleX, puzzleY = np.where(board.boardMatrix == puzzleNum)
 
-        xDist = abs(targetX - puzzleX)
-        yDist = abs(targetY - puzzleY)
+    rootBoard.manhattan = (rootBoard)
 
-        return xDist + yDist
-
-    def calculateHammingDist():
-        hamming = 0
-        for i in range(4):
-            for j in range(4):
-                if targetMatrix[i, j] != puzzleMatrix[i, j]:
-                    hamming += 1
-
-        return hamming
-
-    def checkLeft(zero_xIndex):
-        return zero_xIndex == 0
-
-    def checkRight(zero_xIndex):
-        return zero_xIndex == 3
-
-    def checkUp(zero_yIndex):
-        return zero_yIndex == 0
-
-    def checkDown(zero_yIndex):
-        return zero_yIndex == 3
-
-    def moveLeft(zero_xIndex, zero_yIndex, g, puzzleMatrix):
-        if (zero_xIndex == 0):
-            return False
-        neighbor = np.array(puzzleMatrix, copy=True)
-        temp = neighbor[zero_xIndex - 1, zero_yIndex]
-        neighbor[zero_xIndex - 1, zero_yIndex] = neighbor[zero_xIndex, zero_yIndex]
-        zero_xIndex -= 1
-        neighbor[zero_xIndex + 1, zero_yIndex] = temp
-        g += 1
-        return zero_xIndex, zero_yIndex, g, neighbor
-
-    def moveRight(zero_xIndex, zero_yIndex, g, puzzleMatrix):
-        if (zero_xIndex == 3):
-            return False
-        neighbor = np.array(puzzleMatrix, copy=True)
-        temp = puzzleMatrix[zero_xIndex + 1, zero_yIndex]
-        puzzleMatrix[zero_xIndex + 1, zero_yIndex] = puzzleMatrix[zero_xIndex, zero_yIndex]
-        zero_xIndex += 1
-        puzzleMatrix[zero_xIndex - 1, zero_yIndex] = temp
-        g += 1
-        return zero_xIndex, zero_yIndex, g
-
-    def moveUp(zero_xIndex, zero_yIndex, g, puzzleMatrix):
-        if (zero_yIndex == 0):
-            return False
-        temp = puzzleMatrix[zero_xIndex, zero_yIndex + 1]
-        puzzleMatrix[zero_xIndex, zero_yIndex + 1] = puzzleMatrix[zero_xIndex, zero_yIndex]
-        zero_yIndex += 1
-        puzzleMatrix[zero_xIndex, zero_yIndex - 1] = temp
-        g += 1
-        return zero_xIndex, zero_yIndex, g
-
-    def moveDown(zero_xIndex, zero_yIndex, g, puzzleMatrix):
-        if (zero_yIndex == 0):
-            return False
-        temp = puzzleMatrix[zero_xIndex, zero_yIndex - 1]
-        puzzleMatrix[zero_xIndex, zero_yIndex - 1] = puzzleMatrix[zero_xIndex, zero_yIndex]
-        zero_yIndex -= 1
-        puzzleMatrix[zero_xIndex, zero_yIndex + 1] = temp
-        g += 1
-        return zero_xIndex, zero_yIndex, g
-
-    def calcAllManhattanDist(manhattanList, board):
-        for i in range(16):
-            manhattanList[i] = manhattanDist(i, board)
-
-        return manhattanList
-
-    manhattanList = np.zeros(16, dtype=int)
-    calcAllManhattanDist(manhattanList, rootBoard)
-
-    print(manhattanList)
+    print(rootBoard.manhattan)
     print(rootBoard.hamming)
 
 if __name__ == "__main__":
