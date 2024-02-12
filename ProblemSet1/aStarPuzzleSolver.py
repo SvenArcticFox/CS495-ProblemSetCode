@@ -13,6 +13,8 @@ class Board:
         zero_yIndex = 0
         zero_xIndex = 0
         moves = ""
+
+
 def manhattanDist(puzzleNum, board, targetMatrix):
     targetX , targetY = np.where(targetMatrix == puzzleNum)
     puzzleX, puzzleY = np.where(board.boardMatrix == puzzleNum)
@@ -153,7 +155,7 @@ def moveDown(board, targetMatrix):
     neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex + 1] = temp
     neighbor.g += 1
 
-    neighbor.moves += "U, "
+    neighbor.moves += "D, "
 
     neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
     neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
@@ -191,6 +193,15 @@ def main(argv):
 
     print(rootBoard.manhattan)
     print(rootBoard.hamming)
+
+    visited = []
+    visited.append(rootBoard)
+
+    rootBoard.fscore = rootBoard.manhattan + rootBoard.g
+    pq = PriorityQueue()
+    pq.put(rootBoard, rootBoard.fscore)
+
+
 
 if __name__ == "__main__":
     main(sys.argv)
