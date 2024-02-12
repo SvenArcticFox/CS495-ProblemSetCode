@@ -1,6 +1,19 @@
 import sys
 import pickle
 import numpy as np
+from queue import PriorityQueue
+
+class Board:
+    def __int__(self):
+        boardMatrix = np.zeros((4,4), dtype=int)
+        manhattan = 0
+        hamming = 0
+        g = 0
+        fscore = 0
+        zero_yIndex = 0
+        zero_xIndex = 0
+        moves = ""
+
 
 
 def main(argv):
@@ -9,21 +22,22 @@ def main(argv):
 
     print("Puzzle Dictionary successfully loaded.")
 
-    puzzleMatrix = puzzleDict.get("puzzleMatrix")
+    rootBoard = Board()
+    rootBoard.boardMatrix = puzzleDict.get("puzzleMatrix")
     targetMatrix = puzzleDict.get("targetMatrix")
-    h = puzzleDict.get("h")
-    g = puzzleDict.get("g")
-    zero_xIndex = puzzleDict.get("zero_xIndex")
-    zero_yIndex = puzzleDict.get("zero_yIndex")
+    rootBoard.hamming = puzzleDict.get("hamming")
+    rootBoard.g = puzzleDict.get("g")
+    rootBoard.zero_xIndex = puzzleDict.get("zero_xIndex")
+    rootBoard.zero_yIndex = puzzleDict.get("zero_yIndex")
 
     print("Values successfully assigned from dictionary!")
 
     print(targetMatrix)
-    print(puzzleMatrix)
+    print(rootBoard.boardMatrix)
 
-    def manhattanDist(puzzleNum):
+    def manhattanDist(puzzleNum, board):
         targetX , targetY = np.where(targetMatrix == puzzleNum)
-        puzzleX, puzzleY = np.where(puzzleMatrix == puzzleNum)
+        puzzleX, puzzleY = np.where(board.boardMatrix == puzzleNum)
 
         xDist = abs(targetX - puzzleX)
         yDist = abs(targetY - puzzleY)
@@ -51,19 +65,21 @@ def main(argv):
     def checkDown(zero_yIndex):
         return zero_yIndex == 3
 
-    def moveLeft(zero_xIndex, zero_yIndex, g):
+    def moveLeft(zero_xIndex, zero_yIndex, g, puzzleMatrix):
         if (zero_xIndex == 0):
             return False
-        temp = puzzleMatrix[zero_xIndex - 1, zero_yIndex]
-        puzzleMatrix[zero_xIndex - 1, zero_yIndex] = puzzleMatrix[zero_xIndex, zero_yIndex]
+        neighbor = np.array(puzzleMatrix, copy=True)
+        temp = neighbor[zero_xIndex - 1, zero_yIndex]
+        neighbor[zero_xIndex - 1, zero_yIndex] = neighbor[zero_xIndex, zero_yIndex]
         zero_xIndex -= 1
-        puzzleMatrix[zero_xIndex + 1, zero_yIndex] = temp
+        neighbor[zero_xIndex + 1, zero_yIndex] = temp
         g += 1
-        return zero_xIndex, zero_yIndex, g
+        return zero_xIndex, zero_yIndex, g, neighbor
 
-    def moveRight(zero_xIndex, zero_yIndex, g):
+    def moveRight(zero_xIndex, zero_yIndex, g, puzzleMatrix):
         if (zero_xIndex == 3):
             return False
+        neighbor = np.array(puzzleMatrix, copy=True)
         temp = puzzleMatrix[zero_xIndex + 1, zero_yIndex]
         puzzleMatrix[zero_xIndex + 1, zero_yIndex] = puzzleMatrix[zero_xIndex, zero_yIndex]
         zero_xIndex += 1
@@ -71,7 +87,7 @@ def main(argv):
         g += 1
         return zero_xIndex, zero_yIndex, g
 
-    def moveUp(zero_xIndex, zero_yIndex, g):
+    def moveUp(zero_xIndex, zero_yIndex, g, puzzleMatrix):
         if (zero_yIndex == 0):
             return False
         temp = puzzleMatrix[zero_xIndex, zero_yIndex + 1]
@@ -81,7 +97,7 @@ def main(argv):
         g += 1
         return zero_xIndex, zero_yIndex, g
 
-    def moveDown(zero_xIndex, zero_yIndex, g):
+    def moveDown(zero_xIndex, zero_yIndex, g, puzzleMatrix):
         if (zero_yIndex == 0):
             return False
         temp = puzzleMatrix[zero_xIndex, zero_yIndex - 1]
@@ -91,17 +107,17 @@ def main(argv):
         g += 1
         return zero_xIndex, zero_yIndex, g
 
-    def calcAllManhattanDist(manhattanList):
+    def calcAllManhattanDist(manhattanList, board):
         for i in range(16):
-            manhattanList[i] = manhattanDist(i)
+            manhattanList[i] = manhattanDist(i, board)
 
         return manhattanList
 
     manhattanList = np.zeros(16, dtype=int)
-    calcAllManhattanDist(manhattanList)
+    calcAllManhattanDist(manhattanList, rootBoard)
 
     print(manhattanList)
-    print(h)
+    print(rootBoard.hamming)
 
 if __name__ == "__main__":
     main(sys.argv)

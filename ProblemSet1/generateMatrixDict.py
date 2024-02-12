@@ -22,23 +22,42 @@ def main(argv):
 
 
     g = 0
-    h = 0
+    hamming = 0
 
     zero_xIndex = None
-    zero_yIndex = None
+    zero_yIndex = Nne
 
     for i in range(4):
         for j in range(4):
             if targetMatrix[i,j] != puzzleMatrix[i,j]:
-                h += 1
+                hamming += 1
             if puzzleMatrix[i,j] == 0:
                 zero_xIndex = i
                 zero_yIndex = j
 
+    def manhattanDist(puzzleNum):
+        targetX , targetY = np.where(targetMatrix == puzzleNum)
+        puzzleX, puzzleY = np.where(puzzleMatrix == puzzleNum)
+
+        xDist = abs(targetX - puzzleX)
+        yDist = abs(targetY - puzzleY)
+
+        return xDist + yDist
+
+    def calcTotalManhattan():
+        totalManhattan = 0
+        for i in range(16):
+            totalManhattan += manhattanDist(i)
+
+        return totalManhattan
+
+    manhattan = calcTotalManhattan()
+
     puzzleDict = {
         "targetMatrix": targetMatrix,
         "puzzleMatrix": puzzleMatrix,
-        "h": h,
+        "hamming": hamming,
+        "manhattan": manhattan,
         "g": g,
         "zero_xIndex": zero_xIndex,
         "zero_yIndex": zero_yIndex
