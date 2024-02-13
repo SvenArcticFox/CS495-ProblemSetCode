@@ -50,7 +50,7 @@ def moveLeft(board, targetMatrix):
         return False
 
     neighbor = Board()
-    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.boardMatrix = np.array(board.boardMatrix, copy=True)
     neighbor.manhattan = board.manhattan
     neighbor.hamming = board.hamming
     neighbor.g = board.g
@@ -80,7 +80,7 @@ def moveRight(board, targetMatrix):
         return False
 
     neighbor = Board()
-    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.boardMatrix = np.array(board.boardMatrix, copy=True)
     neighbor.manhattan = board.manhattan
     neighbor.hamming = board.hamming
     neighbor.g = board.g
@@ -110,7 +110,7 @@ def moveUp(board, targetMatrix):
         return False
 
     neighbor = Board()
-    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.boardMatrix = np.array(board.boardMatrix, copy=True)
     neighbor.manhattan = board.manhattan
     neighbor.hamming = board.hamming
     neighbor.g = board.g
@@ -139,7 +139,7 @@ def moveDown(board, targetMatrix):
         return False
 
     neighbor = Board()
-    neighbor.boardMatrix = np.array(board.puzzleMatrix, copy=True)
+    neighbor.boardMatrix = np.array(board.boardMatrix, copy=True)
     neighbor.manhattan = board.manhattan
     neighbor.hamming = board.hamming
     neighbor.g = board.g
