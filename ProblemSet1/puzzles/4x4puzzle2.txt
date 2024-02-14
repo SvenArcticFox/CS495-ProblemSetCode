@@ -2,3 +2,5 @@
 [14,13,9,2],
 [12,4,0,15],
 [10,1,11,5]]
+
+do at own risk 100+ moves needed, will take a while
