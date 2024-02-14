@@ -120,11 +120,11 @@ def moveUp(board, targetMatrix):
     neighbor.zero_xIndex = board.zero_xIndex
     neighbor.moves = board.moves
 
-    temp = neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex]
-    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] \
+    temp = neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex]
+    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] \
         = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex]
-    neighbor.zero_yIndex += 1
-    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] = temp
+    neighbor.zero_yIndex -= 1
+    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] = temp
     neighbor.g += 1
 
     neighbor.moves += "U, "
@@ -149,11 +149,11 @@ def moveDown(board, targetMatrix):
     neighbor.zero_xIndex = board.zero_xIndex
     neighbor.moves = board.moves
 
-    temp = neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex]
-    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] \
+    temp = neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex]
+    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] \
         = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex]
-    neighbor.zero_yIndex -= 1
-    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] = temp
+    neighbor.zero_yIndex += 1
+    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] = temp
     neighbor.g += 1
 
     neighbor.moves += "D, "
@@ -205,14 +205,15 @@ def main(argv):
 
 
     print(rootBoard.moves)
+    orderNum = 0
     rootBoard.fscore = rootBoard.manhattan + rootBoard.g
     pq = PriorityQueue()
-    pq.put((rootBoard.fscore, rootBoard))
+    pq.put((rootBoard.fscore, orderNum, rootBoard))
 
     targetFound = False
 
     while not (pq.empty() and targetFound):
-        fscore, board = pq.get()
+        fscore, order2, board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
 
         print("Board:", board.boardMatrix)
         print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
@@ -226,26 +227,30 @@ def main(argv):
         if checkLeft(board):
             neighborLeft = moveLeft(board, targetMatrix)
             if neighborLeft.boardMatrix.tolist() not in visited:
+                orderNum += 1
                 visited.append(neighborLeft.boardMatrix.tolist())
-                pq.put((neighborLeft.fscore, neighborLeft.boardMatrix))
+                pq.put((neighborLeft.fscore, orderNum, neighborLeft))
 
         if checkRight(board):
             neighborRight = moveRight(board, targetMatrix)
             if neighborRight.boardMatrix.tolist() not in visited:
+                orderNum += 1
                 visited.append(neighborRight.boardMatrix.tolist())
-                pq.put((neighborRight.fscore, neighborRight.boardMatrix))
+                pq.put((neighborRight.fscore, orderNum, neighborRight))
 
         if checkUp(board):
             neighborUp = moveUp(board, targetMatrix)
             if neighborUp.boardMatrix.tolist() not in visited:
+                orderNum += 1
                 visited.append(neighborUp.boardMatrix.tolist())
-                pq.put((neighborUp.fscore, neighborUp.boardMatrix))
+                pq.put((neighborUp.fscore, orderNum, neighborUp))
 
         if checkDown(board):
             neighborDown = moveDown(board, targetMatrix)
             if neighborDown.boardMatrix.tolist() not in visited:
+                orderNum += 1
                 visited.append(neighborDown.boardMatrix.tolist())
-                pq.put((neighborDown.fscore, neighborDown.boardMatrix))
+                pq.put((neighborDown.fscore, orderNum, neighborDown))
 
 
 

@@ -14,11 +14,18 @@ def main(argv):
 
     puzzleMatrix = np.zeros((4, 4), dtype=int)
 
+    '''
     for i in range(4):
         for j in range(4):
             choice = random.randrange(0, len(charList))
             puzzleMatrix[i, j] = charList[choice]
             charList.remove(charList[choice])
+    '''
+
+    puzzleMatrix = np.array([[6,3,10,7],
+                            [0,14,2,11],
+                            [4,13,9,8],
+                            [5,15,12,1]])
 
 
     g = 0
