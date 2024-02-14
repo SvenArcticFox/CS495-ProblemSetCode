@@ -14,6 +14,9 @@ class Board:
         self.zero_yIndex = 0
         self.zero_xIndex = 0
 
+    def __lt__(self, other):
+        return self.fscore < other.fscore
+
 
 
 def manhattanDist(puzzleNum, board, targetMatrix):
@@ -208,12 +211,12 @@ def main(argv):
     orderNum = 0
     rootBoard.fscore = rootBoard.manhattan + rootBoard.g
     pq = PriorityQueue()
-    pq.put((rootBoard.fscore, rootBoard.hamming, rootBoard.manhattan, orderNum, rootBoard))
+    pq.put((rootBoard.fscore, rootBoard))
 
     targetFound = False
 
     while not (pq.empty() and targetFound):
-        fscore, hscore, mscore, order2, board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
+        fscore,board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
 
         print("Board:", "\n", board.boardMatrix)
         print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
@@ -229,28 +232,28 @@ def main(argv):
             if neighborLeft.boardMatrix.tolist() not in visited:
                 orderNum += 1
                 visited.append(neighborLeft.boardMatrix.tolist())
-                pq.put((neighborLeft.fscore, neighborLeft.hamming, neighborLeft.manhattan, orderNum, neighborLeft))
+                pq.put((neighborLeft.fscore, neighborLeft))
 
         if checkRight(board):
             neighborRight = moveRight(board, targetMatrix)
             if neighborRight.boardMatrix.tolist() not in visited:
                 orderNum += 1
                 visited.append(neighborRight.boardMatrix.tolist())
-                pq.put((neighborRight.fscore, neighborRight.hamming, neighborRight.manhattan, orderNum, neighborRight))
+                pq.put((neighborRight.fscore, neighborRight))
 
         if checkUp(board):
             neighborUp = moveUp(board, targetMatrix)
             if neighborUp.boardMatrix.tolist() not in visited:
                 orderNum += 1
                 visited.append(neighborUp.boardMatrix.tolist())
-                pq.put((neighborUp.fscore, neighborUp.hamming, neighborUp.manhattan, orderNum, neighborUp))
+                pq.put((neighborUp.fscore, neighborUp))
 
         if checkDown(board):
             neighborDown = moveDown(board, targetMatrix)
             if neighborDown.boardMatrix.tolist() not in visited:
                 orderNum += 1
                 visited.append(neighborDown.boardMatrix.tolist())
-                pq.put((neighborDown.fscore, neighborDown.hamming, neighborDown.manhattan, orderNum, neighborDown))
+                pq.put((neighborDown.fscore, neighborDown))
 
 
 
