@@ -208,7 +208,6 @@ def main(argv):
 
 
     print(rootBoard.moves)
-    orderNum = 0
     rootBoard.fscore = rootBoard.manhattan + rootBoard.g
     pq = PriorityQueue()
     pq.put((rootBoard.fscore, rootBoard))
@@ -233,28 +232,24 @@ def main(argv):
         if checkLeft(board):
             neighborLeft = moveLeft(board, targetMatrix)
             if neighborLeft.boardMatrix.tolist() not in visited:
-                orderNum += 1
                 visited.append(neighborLeft.boardMatrix.tolist())
                 pq.put((neighborLeft.fscore, neighborLeft))
 
         if checkRight(board):
             neighborRight = moveRight(board, targetMatrix)
             if neighborRight.boardMatrix.tolist() not in visited:
-                orderNum += 1
                 visited.append(neighborRight.boardMatrix.tolist())
                 pq.put((neighborRight.fscore, neighborRight))
 
         if checkUp(board):
             neighborUp = moveUp(board, targetMatrix)
             if neighborUp.boardMatrix.tolist() not in visited:
-                orderNum += 1
                 visited.append(neighborUp.boardMatrix.tolist())
                 pq.put((neighborUp.fscore, neighborUp))
 
         if checkDown(board):
             neighborDown = moveDown(board, targetMatrix)
             if neighborDown.boardMatrix.tolist() not in visited:
-                orderNum += 1
                 visited.append(neighborDown.boardMatrix.tolist())
                 pq.put((neighborDown.fscore, neighborDown))
 
