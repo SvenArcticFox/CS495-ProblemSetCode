@@ -215,9 +215,9 @@ def main(argv):
     while not (pq.empty() and targetFound):
         fscore, hscore, mscore, order2, board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
 
-        print("Board:", board.boardMatrix)
+        print("Board:", "\n", board.boardMatrix)
         print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
-              board.hamming, "\n",
+              board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex ,"\n",
               "Moves Made:", board.moves, "\n")
 
         if (board.boardMatrix == targetMatrix).all():
