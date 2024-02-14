@@ -29,9 +29,9 @@ def main(argv):
 
     for i in range(4):
         for j in range(4):
-            if targetMatrix[i,j] != puzzleMatrix[i,j]:
+            if targetMatrix[j,i] != puzzleMatrix[j,i]:
                 hamming += 1
-            if puzzleMatrix[i,j] == 0:
+            if puzzleMatrix[j,i] == 0:
                 zero_xIndex = i
                 zero_yIndex = j
 

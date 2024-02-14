@@ -5,6 +5,7 @@ from queue import PriorityQueue
 
 class Board:
     def __int__(self):
+        self.moves = ""
         self.boardMatrix = np.zeros((4,4), dtype=int)
         self.manhattan = 0
         self.hamming = 0
@@ -12,7 +13,7 @@ class Board:
         self.fscore = 0
         self.zero_yIndex = 0
         self.zero_xIndex = 0
-        self.moves = ""
+
 
 
 def manhattanDist(puzzleNum, board, targetMatrix):
@@ -34,16 +35,16 @@ def calculateHammingDist(board, targetMatrix):
     return hamming
 
 def checkLeft(board):
-    return board.zero_xIndex == 0
+    return not board.zero_xIndex == 0
 
 def checkRight(board):
-    return board.zero_xIndex == 3
+    return not board.zero_xIndex == 3
 
 def checkUp(board):
-    return board.zero_yIndex == 0
+    return not board.zero_yIndex == 0
 
 def checkDown(board):
-    return board.zero_yIndex == 3
+    return not board.zero_yIndex == 3
 
 def moveLeft(board, targetMatrix):
     if (board.zero_xIndex == 0):
@@ -57,14 +58,14 @@ def moveLeft(board, targetMatrix):
     neighbor.fscore = board.fscore
     neighbor.zero_yIndex = board.zero_yIndex
     neighbor.zero_xIndex = board.zero_xIndex
-    neighbor.moves = neighbor.moves
+    neighbor.moves = board.moves
 
 
-    temp = neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex]
-    neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex] \
-        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    temp = neighbor.boardMatrix[ neighbor.zero_yIndex, neighbor.zero_xIndex - 1]
+    neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex - 1] \
+        = neighbor.boardMatrix[ neighbor.zero_yIndex, neighbor.zero_xIndex]
     neighbor.zero_xIndex -= 1
-    neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex] = temp
+    neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex + 1] = temp
     neighbor.g += 1
 
     neighbor.moves += "L, "
@@ -87,13 +88,13 @@ def moveRight(board, targetMatrix):
     neighbor.fscore = board.fscore
     neighbor.zero_yIndex = board.zero_yIndex
     neighbor.zero_xIndex = board.zero_xIndex
-    neighbor.moves = neighbor.moves
+    neighbor.moves = board.moves
 
-    temp = neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex]
-    neighbor.boardMatrix[neighbor.zero_xIndex + 1, neighbor.zero_yIndex] \
-        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    temp = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex + 1]
+    neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex + 1] \
+        = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex]
     neighbor.zero_xIndex += 1
-    neighbor.boardMatrix[neighbor.zero_xIndex - 1, neighbor.zero_yIndex] = temp
+    neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex - 1] = temp
     neighbor.g += 1
 
     neighbor.moves += "R, "
@@ -106,7 +107,7 @@ def moveRight(board, targetMatrix):
     return neighbor
 
 def moveUp(board, targetMatrix):
-    if (board.zero_xIndex == 0):
+    if (board.zero_yIndex == 0):
         return False
 
     neighbor = Board()
@@ -117,13 +118,13 @@ def moveUp(board, targetMatrix):
     neighbor.fscore = board.fscore
     neighbor.zero_yIndex = board.zero_yIndex
     neighbor.zero_xIndex = board.zero_xIndex
-    neighbor.moves = neighbor.moves
+    neighbor.moves = board.moves
 
-    temp = neighbor.boardMatrix[neighbor.zero_xIndex , neighbor.zero_yIndex + 1]
-    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex + 1] \
-        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    temp = neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex]
+    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] \
+        = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex]
     neighbor.zero_yIndex += 1
-    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1] = temp
+    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] = temp
     neighbor.g += 1
 
     neighbor.moves += "U, "
@@ -135,7 +136,7 @@ def moveUp(board, targetMatrix):
     return neighbor
 
 def moveDown(board, targetMatrix):
-    if (board.zero_xIndex == 0):
+    if (board.zero_yIndex == 3):
         return False
 
     neighbor = Board()
@@ -146,13 +147,13 @@ def moveDown(board, targetMatrix):
     neighbor.fscore = board.fscore
     neighbor.zero_yIndex = board.zero_yIndex
     neighbor.zero_xIndex = board.zero_xIndex
-    neighbor.moves = neighbor.moves
+    neighbor.moves = board.moves
 
-    temp = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1]
-    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex - 1] \
-        = neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex]
+    temp = neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex]
+    neighbor.boardMatrix[neighbor.zero_yIndex - 1, neighbor.zero_xIndex] \
+        = neighbor.boardMatrix[neighbor.zero_yIndex, neighbor.zero_xIndex]
     neighbor.zero_yIndex -= 1
-    neighbor.boardMatrix[neighbor.zero_xIndex, neighbor.zero_yIndex + 1] = temp
+    neighbor.boardMatrix[neighbor.zero_yIndex + 1, neighbor.zero_xIndex] = temp
     neighbor.g += 1
 
     neighbor.moves += "D, "
@@ -160,6 +161,8 @@ def moveDown(board, targetMatrix):
     neighbor.hamming = calculateHammingDist(neighbor, targetMatrix)
     neighbor.manhattan = calcTotalManhattanDist(neighbor, targetMatrix)
     neighbor.fscore = neighbor.g + neighbor.manhattan
+
+    return neighbor
 
 def calcTotalManhattanDist(board, targetMatrix):
     manhattan = 0
@@ -184,6 +187,7 @@ def main(argv):
     rootBoard.g = puzzleDict.get("g")
     rootBoard.zero_xIndex = puzzleDict.get("zero_xIndex")
     rootBoard.zero_yIndex = puzzleDict.get("zero_yIndex")
+    rootBoard.moves = ""
 
     print("Values successfully assigned from dictionary!")
 
@@ -195,11 +199,56 @@ def main(argv):
     print(rootBoard.hamming)
 
     visited = []
-    visited.append(rootBoard)
+    visited.append(rootBoard.boardMatrix.tolist())
 
+    print(rootBoard.zero_xIndex)
+
+
+    print(rootBoard.moves)
     rootBoard.fscore = rootBoard.manhattan + rootBoard.g
     pq = PriorityQueue()
-    pq.put(rootBoard, rootBoard.fscore)
+    pq.put((rootBoard.fscore, rootBoard))
+
+    targetFound = False
+
+    while not (pq.empty() and targetFound):
+        fscore, board = pq.get()
+
+        print("Board:", board.boardMatrix)
+        print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
+              board.hamming, "\n",
+              "Moves Made:", board.moves, "\n")
+
+        if (board.boardMatrix == targetMatrix).all():
+            targetFound = True
+            continue
+
+        if checkLeft(board):
+            neighborLeft = moveLeft(board, targetMatrix)
+            if neighborLeft.boardMatrix.tolist() not in visited:
+                visited.append(neighborLeft.boardMatrix.tolist())
+                pq.put((neighborLeft.fscore, neighborLeft.boardMatrix))
+
+        if checkRight(board):
+            neighborRight = moveRight(board, targetMatrix)
+            if neighborRight.boardMatrix.tolist() not in visited:
+                visited.append(neighborRight.boardMatrix.tolist())
+                pq.put((neighborRight.fscore, neighborRight.boardMatrix))
+
+        if checkUp(board):
+            neighborUp = moveUp(board, targetMatrix)
+            if neighborUp.boardMatrix.tolist() not in visited:
+                visited.append(neighborUp.boardMatrix.tolist())
+                pq.put((neighborUp.fscore, neighborUp.boardMatrix))
+
+        if checkDown(board):
+            neighborDown = moveDown(board, targetMatrix)
+            if neighborDown.boardMatrix.tolist() not in visited:
+                visited.append(neighborDown.boardMatrix.tolist())
+                pq.put((neighborDown.fscore, neighborDown.boardMatrix))
+
+
+
 
 
 
