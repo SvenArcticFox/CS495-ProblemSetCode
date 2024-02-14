@@ -7,7 +7,7 @@ def main(argv):
     targetMatrix = np.array([[1,2,3,4],
                                [5,6,7,8],
                                [9,10,11,12],
-                               [13,14,15, 0]])
+                               [13,14,15,0]])
 
 
     charList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0]
@@ -22,10 +22,10 @@ def main(argv):
             charList.remove(charList[choice])
     '''
 
-    puzzleMatrix = np.array([[6,3,8,7],
-                            [14,13,9,2],
-                            [12,4,0,15],
-                            [10,1,11,5]])
+    puzzleMatrix = np.array([[1,2,3,4],
+                                [5,0,6,8],
+                                [9,10,7,11],
+                                [13,14,15, 12]])
 
 
     g = 0

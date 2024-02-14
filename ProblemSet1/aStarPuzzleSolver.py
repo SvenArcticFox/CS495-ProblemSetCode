@@ -213,9 +213,12 @@ def main(argv):
     pq = PriorityQueue()
     pq.put((rootBoard.fscore, rootBoard))
 
+    print(rootBoard.boardMatrix.tolist())
+
+    global targetFound
     targetFound = False
 
-    while not (pq.empty() and targetFound):
+    while not pq.empty() and not targetFound:
         fscore,board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
 
         print("Board:", "\n", board.boardMatrix)
@@ -223,7 +226,7 @@ def main(argv):
               board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex ,"\n",
               "Moves Made:", board.moves, "\n")
 
-        if (board.boardMatrix == targetMatrix).all():
+        if np.array_equal(board.boardMatrix, targetMatrix):
             targetFound = True
             continue
 
