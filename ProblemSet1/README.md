@@ -9,7 +9,8 @@ in order to solve a 4x4 sliding puzzle.
 Running the two puzzles that require more than 100 moves take over 10 minutes to run on both algorithms. On simpler
 puzzles, it seems that the divide and conquer algorithm takes a slightly longer time to solve a puzzle compared to the
 A* algorithm. With puzzle 4, it took the A* algorithm about 5.5 seconds to run on average, and it took the divide
-and conquer algorithm 6.5 seconds on average to run. 
+and conquer algorithm 6.5 seconds on average to run. Overall, the divide and conquer algorithm is slower than the 
+A* algorithm.
 
 ### Requirements
 - numpy
