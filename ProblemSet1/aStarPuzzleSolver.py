@@ -2,6 +2,7 @@ import sys
 import pickle
 import numpy as np
 from queue import PriorityQueue
+from datetime import datetime
 
 class Board:
     def __int__(self):
@@ -219,6 +220,8 @@ def main(argv):
 
     global board
 
+    start = datetime.now().timestamp()
+
     while not pq.empty() and not targetFound:
         fscore,board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
 
@@ -255,11 +258,15 @@ def main(argv):
                 visited.append(neighborDown.boardMatrix.tolist())
                 pq.put((neighborDown.fscore, neighborDown))
 
+    end = datetime.now().timestamp()
+    timeRun = end - start
+
     print("************************** FINAL BOARD **************************")
     print("Board:", "\n", board.boardMatrix)
     print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
           board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex, "\n",
           "Moves Made:", board.moves, "\n")
+    print("Time run:", timeRun, "seconds!")
 
 
 

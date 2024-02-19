@@ -2,6 +2,7 @@ import sys
 import pickle
 import numpy as np
 from queue import PriorityQueue
+from datetime import datetime
 
 
 class Board:
@@ -219,6 +220,8 @@ def main(argv):
     global firstRowFound
     firstRowFound = False
     global board
+
+    start = datetime.now().timestamp()
     
     while not pq.empty() and not firstRowFound:
         fscore,board = pq.get()
@@ -340,11 +343,16 @@ def main(argv):
                 visited.append(neighborDown.boardMatrix.tolist())
                 pq.put((neighborDown.fscore, neighborDown))
 
+    end = datetime.now().timestamp()
+
+    timeRun = end - start
+
     print("************************** FINAL BOARD **************************")
     print("Board:", "\n", board.boardMatrix)
     print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
           board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex, "\n",
           "Moves Made:", board.moves, "\n")
+    print("Time run:", timeRun, "seconds!")
 
 
 if __name__ == '__main__':
