@@ -228,7 +228,7 @@ def main(argv):
               board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex ,"\n",
               "Moves Made:", board.moves, "\n")
 
-        firstRow = board[0,:]
+        firstRow = board.boardMatrix[0,:]
         if np.array_equal(firstRow, firstRowTarget):
             firstRowFound = True
             continue
@@ -262,7 +262,7 @@ def main(argv):
 
     firstColumnTarget = targetMatrix[:,0]
     while not pq.empty() and not firstColumnFound:
-        firstColumn = board[:, 0]
+        firstColumn = board.boardMatrix[:, 0]
         if np.array_equal(firstColumn, firstColumnTarget):
             firstColumnFound = True
             continue
@@ -304,7 +304,7 @@ def main(argv):
 
     targetThreebyThree = targetMatrix[1:,1:]
     while not pq.empty() and not threeByThreeMatrixFound:
-        threeByThreeMatrix = board[1:, 1:]
+        threeByThreeMatrix = board.boardMatrix[1:, 1:]
         if np.array_equal(threeByThreeMatrix, targetThreebyThree):
             threeByThreeMatrixFound = True
             continue

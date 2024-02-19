@@ -22,10 +22,10 @@ def main(argv):
             charList.remove(charList[choice])
     '''
 
-    puzzleMatrix = np.array([[1,2,3,4],
-                                [5,0,6,8],
-                                [9,10,7,11],
-                                [13,14,15, 12]])
+    puzzleMatrix = np.array([[5,2,10,3],
+                                [11,7,9,4],
+                                [0,6,15,8],
+                                [13,1,14,12]])
 
 
     g = 0
