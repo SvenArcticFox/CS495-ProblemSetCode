@@ -218,9 +218,10 @@ def main(argv):
 
     global firstRowFound
     firstRowFound = False
+    global board
     
     while not pq.empty() and not firstRowFound:
-        fscore,board = pq.get() # add a tiebreaker to prevent queue from comparing arrays
+        fscore,board = pq.get()
 
         print("Board:", "\n", board.boardMatrix)
         print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
@@ -255,6 +256,95 @@ def main(argv):
             if neighborDown.boardMatrix.tolist() not in visited:
                 visited.append(neighborDown.boardMatrix.tolist())
                 pq.put((neighborDown.fscore, neighborDown))
+
+    global firstColumnFound
+    firstColumnFound = False
+
+    firstColumnTarget = targetMatrix[:,0]
+    while not pq.empty() and not firstColumnFound:
+        firstColumn = board[:, 0]
+        if np.array_equal(firstColumn, firstColumnTarget):
+            firstColumnFound = True
+            continue
+
+        fscore,board = pq.get()
+
+        print("Board:", "\n", board.boardMatrix)
+        print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
+              board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex ,"\n",
+              "Moves Made:", board.moves, "\n")
+
+
+        if checkLeft(board):
+            neighborLeft = moveLeft(board, targetMatrix)
+            if neighborLeft.boardMatrix.tolist() not in visited:
+                visited.append(neighborLeft.boardMatrix.tolist())
+                pq.put((neighborLeft.fscore, neighborLeft))
+
+        if checkRight(board):
+            neighborRight = moveRight(board, targetMatrix)
+            if neighborRight.boardMatrix.tolist() not in visited:
+                visited.append(neighborRight.boardMatrix.tolist())
+                pq.put((neighborRight.fscore, neighborRight))
+
+        if checkUp(board):
+            neighborUp = moveUp(board, targetMatrix)
+            if neighborUp.boardMatrix.tolist() not in visited:
+                visited.append(neighborUp.boardMatrix.tolist())
+                pq.put((neighborUp.fscore, neighborUp))
+
+        if checkDown(board):
+            neighborDown = moveDown(board, targetMatrix)
+            if neighborDown.boardMatrix.tolist() not in visited:
+                visited.append(neighborDown.boardMatrix.tolist())
+                pq.put((neighborDown.fscore, neighborDown))
+
+    global threeByThreeMatrixFound
+    threeByThreeMatrixFound = False
+
+    targetThreebyThree = targetMatrix[1:,1:]
+    while not pq.empty() and not threeByThreeMatrixFound:
+        threeByThreeMatrix = board[1:, 1:]
+        if np.array_equal(threeByThreeMatrix, targetThreebyThree):
+            threeByThreeMatrixFound = True
+            continue
+
+        fscore,board = pq.get()
+
+        print("Board:", "\n", board.boardMatrix)
+        print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
+              board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex ,"\n",
+              "Moves Made:", board.moves, "\n")
+
+        if checkLeft(board):
+            neighborLeft = moveLeft(board, targetMatrix)
+            if neighborLeft.boardMatrix.tolist() not in visited:
+                visited.append(neighborLeft.boardMatrix.tolist())
+                pq.put((neighborLeft.fscore, neighborLeft))
+
+        if checkRight(board):
+            neighborRight = moveRight(board, targetMatrix)
+            if neighborRight.boardMatrix.tolist() not in visited:
+                visited.append(neighborRight.boardMatrix.tolist())
+                pq.put((neighborRight.fscore, neighborRight))
+
+        if checkUp(board):
+            neighborUp = moveUp(board, targetMatrix)
+            if neighborUp.boardMatrix.tolist() not in visited:
+                visited.append(neighborUp.boardMatrix.tolist())
+                pq.put((neighborUp.fscore, neighborUp))
+
+        if checkDown(board):
+            neighborDown = moveDown(board, targetMatrix)
+            if neighborDown.boardMatrix.tolist() not in visited:
+                visited.append(neighborDown.boardMatrix.tolist())
+                pq.put((neighborDown.fscore, neighborDown))
+
+    print("************************** FINAL BOARD **************************")
+    print("Board:", "\n", board.boardMatrix)
+    print("F-Score:", board.fscore, "\t", "G:", board.g, "\t", "Manhattan:", board.manhattan, "\t", "Hamming:",
+          board.hamming, "\t", "Zero X Index:", board.zero_xIndex, "\t", "Zero Y Index:", board.zero_yIndex, "\n",
+          "Moves Made:", board.moves, "\n")
 
 
 if __name__ == '__main__':
