@@ -178,7 +178,43 @@ def calcTotalManhattanDist(board, targetMatrix):
 
 
 def main(argv):
-    pass
+    with open('puzzleDictionary.pkl', 'rb') as f:
+        puzzleDict = pickle.load(f)
+
+    print("Puzzle Dictionary successfully loaded.")
+
+    rootBoard = Board()
+    rootBoard.boardMatrix = puzzleDict.get("puzzleMatrix")
+    targetMatrix = puzzleDict.get("targetMatrix")
+    rootBoard.hamming = puzzleDict.get("hamming")
+    rootBoard.manhattan = puzzleDict.get("manhattan")
+    rootBoard.g = puzzleDict.get("g")
+    rootBoard.zero_xIndex = puzzleDict.get("zero_xIndex")
+    rootBoard.zero_yIndex = puzzleDict.get("zero_yIndex")
+    rootBoard.moves = ""
+
+    print("Values successfully assigned from dictionary!")
+
+    print(targetMatrix)
+    print(rootBoard.boardMatrix)
+
+
+    print(rootBoard.manhattan)
+    print(rootBoard.hamming)
+
+    visited = []
+    visited.append(rootBoard.boardMatrix.tolist())
+
+    print(rootBoard.zero_xIndex)
+
+
+    print(rootBoard.moves)
+    rootBoard.fscore = rootBoard.manhattan + rootBoard.g
+    pq = PriorityQueue()
+    pq.put((rootBoard.fscore, rootBoard))
+
+    print(rootBoard.boardMatrix.tolist())
+    
 
 if __name__ == '__main__':
     main(sys.argv)
