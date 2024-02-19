@@ -196,20 +196,12 @@ def main(argv):
 
     print("Values successfully assigned from dictionary!")
 
-    print(targetMatrix)
-    print(rootBoard.boardMatrix)
-
-
-    print(rootBoard.manhattan)
-    print(rootBoard.hamming)
+    print("Target:\n", targetMatrix)
+    print("Board:\n", rootBoard.boardMatrix)
 
     visited = []
     visited.append(rootBoard.boardMatrix.tolist())
 
-    print(rootBoard.zero_xIndex)
-
-
-    print(rootBoard.moves)
     rootBoard.fscore = rootBoard.manhattan + rootBoard.g
     pq = PriorityQueue()
     pq.put((rootBoard.fscore, rootBoard))
