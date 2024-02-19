@@ -17,7 +17,7 @@ A* algorithm.
 
 ### Instructions to run
 1. Open the generateMatrixDict.py file
-   1. Optional: Change the puzzle matrix to a matrix that is in the *puzzles* directory
-2. Run the generateMatrixDict.py file
+   1. Optional: Change the matrix inside the puzzleMatrix variable to a puzzle in the *puzzles* directory. 
+2. This will generate a puzzleDictionary.pkl pickle file containing the puzzle, the target, manhattan and hamming values, and x and y coordinates for the 0 (the blank space).
 3. Run the aStarPuzzleSolver.py file for A* solver algorithm
 4. Run the divideAndConquer.py file for the divide and conquer solver algorithm
