@@ -50,13 +50,15 @@ def main(args):
     print("Cool, Warm, Overheat")
     print(v[0])
 
-    for i in range(iterations):
+    while i <= iterations:
         coolIter = iterateCool(v[i - 1])
         warmIter = iterateWarm(v[i - 1])
         overheatIter = iterateOverheat(v[i - 1])
 
         v.insert(i, (coolIter, warmIter, overheatIter))
         print(v[i])
+
+        i += 1
 
 
 def iterateCool(prevIter):
