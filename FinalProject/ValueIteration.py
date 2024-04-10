@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 
 # Iterations
 iterations = 100
